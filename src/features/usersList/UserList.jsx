@@ -1,4 +1,11 @@
+import { useSelector } from "react-redux";
+
 function UserList() {
+  const users = useSelector((state) => state.users);
+  const loading = useSelector((state) => state.loading);
+  const error = useSelector((state) => state.error);
+
+
   return (
     <div className="user-list">
       <h2>User List</h2>
@@ -6,16 +13,24 @@ function UserList() {
       {/* Кнопка загрузки */}
       <button className="load-btn">Load Users</button>
 
+    {loading && <p>Loading...</p>}
+    {error && <p>Error... {error}</p>}
+
+
       <ul>
-        <li>
-          <span>Name - email</span>
+        {users.map((user) => (
+          <li key={user.id}>
+            <span>
+              {user.name} - {user.email}
+            </span>
 
-          <div className="btn-group">
-            <button className="select-btn">Select</button>
+            <div className="btn-group">
+              <button className="select-btn">Select</button>
 
-            <button className="delete-btn">Delete</button>
-          </div>
-        </li>
+              <button className="delete-btn">Delete</button>
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );
